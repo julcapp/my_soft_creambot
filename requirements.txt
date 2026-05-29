@@ -1,0 +1,4 @@
+APScheduler==3.10.4
+Requests==2.31.0
+Pyrogram==2.0.106
+TgCrypto==1.2.5
