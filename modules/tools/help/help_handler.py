@@ -1,5 +1,4 @@
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from config.app import app
+from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 tools_keyboard = InlineKeyboardMarkup([
@@ -20,12 +19,7 @@ help_texts = {
 }
 
 
-def answer_tools(client, callback_query):
-    data = callback_query.data
+async def answer_tools(query):
+    data = query.data
     text = help_texts.get(data, help_texts["tools"])
-    app.edit_message_text(
-        chat_id=callback_query.message.chat.id,
-        message_id=callback_query.message.id,
-        text=text,
-        reply_markup=tools_keyboard,
-    )
+    await query.edit_message_text(text=text, reply_markup=tools_keyboard)

@@ -1,6 +1,4 @@
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from config.app import app
-from config.config import chat_id
+from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 def build_main_keyboard():
@@ -12,11 +10,9 @@ def build_main_keyboard():
     ])
 
 
-def answer_main(callback_query):
+async def answer_main(query):
     keyboard = build_main_keyboard()
-    app.edit_message_text(
-        chat_id=callback_query.message.chat.id,
-        message_id=callback_query.message.id,
+    await query.edit_message_text(
         text='<b>Помощь</b>\n\nНажимай на кнопки внизу, чтобы получить информацию.',
         reply_markup=keyboard,
     )

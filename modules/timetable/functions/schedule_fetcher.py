@@ -2,8 +2,6 @@ import requests
 from datetime import date, timedelta
 from config.config import group_name
 
-API_URL = "https://schedule.kpi.ua/api/schedule/lectures?groupName={}"
-
 
 def get_group_id():
     try:

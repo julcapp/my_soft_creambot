@@ -1,4 +1,4 @@
-admin_user_id = 12345
-chat_id = -12345
-bot_username = "your_bot_username"
+admin_user_id = 93614095
+chat_id = None
+bot_username = "my_soft_creambot"
 group_name = "XX-XX"

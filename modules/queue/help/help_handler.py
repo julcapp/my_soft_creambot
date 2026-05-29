@@ -1,5 +1,4 @@
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from config.app import app
+from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 queue_keyboard = InlineKeyboardMarkup([
@@ -28,12 +27,7 @@ help_texts = {
 }
 
 
-def answer_queue(client, callback_query):
-    data = callback_query.data
+async def answer_queue(query):
+    data = query.data
     text = help_texts.get(data, help_texts["queue"])
-    app.edit_message_text(
-        chat_id=callback_query.message.chat.id,
-        message_id=callback_query.message.id,
-        text=text,
-        reply_markup=queue_keyboard,
-    )
+    await query.edit_message_text(text=text, reply_markup=queue_keyboard)

@@ -1,26 +1,25 @@
-from pyrogram import filters
-from config.app import app
-from config.config import chat_id, bot_username
+from telegram import Update
+from telegram.ext import ContextTypes
+from config.config import chat_id
 
 
-@app.on_message(filters.group & filters.command(["ping", f"ping@{bot_username}"]) & filters.chat([chat_id]))
-def ping(client, message):
-    message.reply_text("Pong!")
+async def ping(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.effective_chat.id != chat_id:
+        return
+    await update.message.reply_text("Pong!")
 
 
-@app.on_message(filters.group & filters.command(["chat_id", f"chat_id@{bot_username}"]) & filters.chat([chat_id]))
-def get_chat_id(client, message):
-    message.reply_text(f"Chat ID: <code>{message.chat.id}</code>")
+async def get_chat_id(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(f"Chat ID: <code>{update.effective_chat.id}</code>")
 
 
-@app.on_message(filters.group & filters.command(["user_id", f"user_id@{bot_username}"]) & filters.chat([chat_id]))
-def get_user_id(client, message):
-    if message.reply_to_message:
-        target = message.reply_to_message.from_user
-        message.reply_text(
+async def get_user_id(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.message.reply_to_message:
+        target = update.message.reply_to_message.from_user
+        await update.message.reply_text(
             f"Пользователь: {target.first_name}\nID: <code>{target.id}</code>"
         )
     else:
-        message.reply_text(
-            f"Ваш ID: <code>{message.from_user.id}</code>"
+        await update.message.reply_text(
+            f"Ваш ID: <code>{update.effective_user.id}</code>"
         )

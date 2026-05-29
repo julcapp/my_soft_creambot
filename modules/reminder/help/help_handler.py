@@ -1,5 +1,4 @@
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from config.app import app
+from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 db_keyboard = InlineKeyboardMarkup([
@@ -24,12 +23,7 @@ help_texts = {
 }
 
 
-def answer_db(client, callback_query):
-    data = callback_query.data
+async def answer_db(query):
+    data = query.data
     text = help_texts.get(data, help_texts["db"])
-    app.edit_message_text(
-        chat_id=callback_query.message.chat.id,
-        message_id=callback_query.message.id,
-        text=text,
-        reply_markup=db_keyboard,
-    )
+    await query.edit_message_text(text=text, reply_markup=db_keyboard)

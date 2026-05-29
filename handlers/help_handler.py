@@ -1,14 +1,14 @@
-from pyrogram import filters
-from config.app import app
-from config.config import chat_id, bot_username
+from telegram import Update
+from telegram.ext import ContextTypes
+from config.config import chat_id
 from handlers.help.main_page_help_handler import build_main_keyboard
 
 
-@app.on_message(filters.group & filters.command(["help", f"help@{bot_username}", "start", f"start@{bot_username}"]) & filters.chat([chat_id]))
-def help_main(client, message):
+async def help_main(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if chat_id and update.effective_chat.id != chat_id:
+        return
     keyboard = build_main_keyboard()
-    app.send_message(
-        chat_id=message.chat.id,
+    await update.message.reply_text(
         text='<b>Помощь</b>\n\nНажимай на кнопки внизу, чтобы получить информацию.',
         reply_markup=keyboard,
     )
